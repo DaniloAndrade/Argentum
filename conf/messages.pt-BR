@@ -1,0 +1,7 @@
+projeto.titulo=Argentum
+titulo.lista.negociacoes=Lista de Negociações
+
+label.negociacao.preco=Preço
+label.negociacao.quantidade=Quantidade
+label.negociacao.volume=Volume
+label.negociacao.data=Data
