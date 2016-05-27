@@ -1,0 +1,34 @@
+
+@import br.com.caelum.argentum.modelo.Negociacao
+@import br.com.caelum.argentum.Formatters._
+@(negociacoes:List[Negociacao])(implicit messages: Messages)
+
+@template(messages("titulo.lista.negociacoes"), tab="Lista"){
+
+	<h3>@messages("titulo.lista.negociacoes")</h3>
+	<hr/>
+
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>@messages("label.negociacao.preco")</th>
+					<th>@messages("label.negociacao.quantidade")</th>
+					<th>@messages("label.negociacao.volume")</th>
+					<th>@messages("label.negociacao.data")</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(n <- negociacoes){
+					<tr>
+						<td>@n.preco.toCurrencyFormat</td>
+						<td>@n.quantidade</td>
+						<td>@n.volume.toCurrencyFormat</td>
+						<td>@n.data.formatTo</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+}
