@@ -2,23 +2,23 @@ package br.com.caelum.argentum.tests.model
 
 import java.time.LocalDateTime
 
-import br.com.caelum.argentum.modelo.{CandlestickFactory, Negociacao}
+import br.com.caelum.argentum.modelo.{CandleFactory, Negociacao}
 import org.specs2.mutable.Specification
 
 /**
 	* Created by danilo on 16/05/16.
 	*/
-class CandlestickFactoryTest extends Specification{
+class CandleFactoryTest extends Specification {
 
 	"dada no dia de hoje as negociacoes com valores 40.5, 40.0, 39.8 e 42.3 e todas com 100 negociacoes " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacao1 = Negociacao(40.5,100,hoje)
-		val negociacao2 = Negociacao(45.0,100,hoje)
-		val negociacao3 = Negociacao(39.8,100,hoje)
-		val negociacao4 = Negociacao(42.3,100,hoje)
-		val negociacoes = List(negociacao1,negociacao2,negociacao3,negociacao4)
-		val candle = CandlestickFactory.constroiCandleParaData(hoje,negociacoes)
+		val negociacao1 = Negociacao(40.5, 100, hoje)
+		val negociacao2 = Negociacao(45.0, 100, hoje)
+		val negociacao3 = Negociacao(39.8, 100, hoje)
+		val negociacao4 = Negociacao(42.3, 100, hoje)
+		val negociacoes = List(negociacao1, negociacao2, negociacao3, negociacao4)
+		val candle = CandleFactory.constroiCandleParaData(hoje, negociacoes)
 
 		" o candle gerado deve ter uma abertura 40.5 " >> {
 			candle.abertura must_== 40.5
@@ -44,12 +44,12 @@ class CandlestickFactoryTest extends Specification{
 	"dada no dia de hoje as negociacoes com valores crescentes 39.8, 40.5, 42.3 e 45.0  e todas com 100 negociacoes " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacao1 = Negociacao(39.8,100,hoje)
-		val negociacao2 = Negociacao(40.5,100,hoje)
-		val negociacao3 = Negociacao(42.3,100,hoje)
-		val negociacao4 = Negociacao(45.0,100,hoje)
-		val negociacoes = List(negociacao1,negociacao2,negociacao3,negociacao4)
-		val candle = CandlestickFactory.constroiCandleParaData(hoje,negociacoes)
+		val negociacao1 = Negociacao(39.8, 100, hoje)
+		val negociacao2 = Negociacao(40.5, 100, hoje)
+		val negociacao3 = Negociacao(42.3, 100, hoje)
+		val negociacao4 = Negociacao(45.0, 100, hoje)
+		val negociacoes = List(negociacao1, negociacao2, negociacao3, negociacao4)
+		val candle = CandleFactory.constroiCandleParaData(hoje, negociacoes)
 
 		" o candle gerado deve ter uma abertura 39.8 " >> {
 			candle.abertura must_== 39.8
@@ -79,12 +79,12 @@ class CandlestickFactoryTest extends Specification{
 	"dada no dia de hoje as negociacoes com valores decrescentes 45.0, 42.3, 40.5 e  39.8 e todas com 100 negociacoes " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacao1 = Negociacao(45.0,100,hoje)
-		val negociacao2 = Negociacao(42.3,100,hoje)
-		val negociacao3 = Negociacao(40.5,100,hoje)
-		val negociacao4 = Negociacao(39.8,100,hoje)
-		val negociacoes = List(negociacao1,negociacao2,negociacao3,negociacao4)
-		val candle = CandlestickFactory.constroiCandleParaData(hoje,negociacoes)
+		val negociacao1 = Negociacao(45.0, 100, hoje)
+		val negociacao2 = Negociacao(42.3, 100, hoje)
+		val negociacao3 = Negociacao(40.5, 100, hoje)
+		val negociacao4 = Negociacao(39.8, 100, hoje)
+		val negociacoes = List(negociacao1, negociacao2, negociacao3, negociacao4)
+		val candle = CandleFactory.constroiCandleParaData(hoje, negociacoes)
 
 		" o candle gerado deve ter uma abertura 45.0 " >> {
 			candle.abertura must_== 45.0
@@ -115,9 +115,9 @@ class CandlestickFactoryTest extends Specification{
 	"dada no dia de hoje apena uma negociacão com valor 40.5 e toda com 100 negociacao " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacao1 = Negociacao(40.5,100,hoje)
+		val negociacao1 = Negociacao(40.5, 100, hoje)
 		val negociacoes = List(negociacao1)
-		val candle = CandlestickFactory.constroiCandleParaData(hoje,negociacoes)
+		val candle = CandleFactory.constroiCandleParaData(hoje, negociacoes)
 
 		" o candle gerado deve ter uma abertura 40.5 " >> {
 			candle.abertura must_== 40.5
@@ -143,8 +143,8 @@ class CandlestickFactoryTest extends Specification{
 	"dada que no dia de hoje não houve negociações  " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacoes:List[Negociacao] = List()
-		val candle = CandlestickFactory.constroiCandleParaData(hoje,negociacoes)
+		val negociacoes: List[Negociacao] = List()
+		val candle = CandleFactory.constroiCandleParaData(hoje, negociacoes)
 
 		"o candle gerado deve ter uma abertura 0.0 " >> {
 			candle.abertura must_== 0.0
@@ -171,21 +171,21 @@ class CandlestickFactoryTest extends Specification{
 	"Dado uma lista com 3 negociações de dias " >> {
 		val hoje = LocalDateTime.now();
 
-		val negociacao1 = Negociacao(40.5,100,hoje)
-		val negociacao2 = Negociacao(45.0,100,hoje)
-		val negociacao3 = Negociacao(39.8,100,hoje)
-		val negociacao4 = Negociacao(42.3,100,hoje)
+		val negociacao1 = Negociacao(40.5, 100, hoje)
+		val negociacao2 = Negociacao(45.0, 100, hoje)
+		val negociacao3 = Negociacao(39.8, 100, hoje)
+		val negociacao4 = Negociacao(42.3, 100, hoje)
 
 
-		val negociacao5 = Negociacao(48.8,100,hoje.plusDays(1))
-		val negociacao6 = Negociacao(49.3,100,hoje.plusDays(1))
+		val negociacao5 = Negociacao(48.8, 100, hoje.plusDays(1))
+		val negociacao6 = Negociacao(49.3, 100, hoje.plusDays(1))
 
-		val negociacao7 = Negociacao(51.8,100,hoje.plusDays(2))
-		val negociacao8 = Negociacao(52.3,100,hoje.plusDays(2))
+		val negociacao7 = Negociacao(51.8, 100, hoje.plusDays(2))
+		val negociacao8 = Negociacao(52.3, 100, hoje.plusDays(2))
 
-		val negociacoes = List(negociacao1,negociacao2,negociacao3,
-			negociacao4,negociacao5,negociacao6,negociacao7,negociacao8)
-		val candles = CandlestickFactory.constroiCandles(negociacoes)
+		val negociacoes = List(negociacao1, negociacao2, negociacao3,
+			negociacao4, negociacao5, negociacao6, negociacao7, negociacao8)
+		val candles = CandleFactory.constroiCandles(negociacoes)
 
 
 		"deve gerar uma lista de candles com 3 candles " >> {

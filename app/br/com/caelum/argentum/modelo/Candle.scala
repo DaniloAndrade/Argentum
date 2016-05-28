@@ -6,12 +6,12 @@ import java.time.format.DateTimeFormatter
 /**
 	* Created by danilo on 16/05/16.
 	*/
-case class Candlestick(val abertura: BigDecimal,
-											 val fechamento: BigDecimal,
-											 val minimo: BigDecimal,
-											 val maximo: BigDecimal,
-											 val volume: BigDecimal,
-											 val data: LocalDateTime) {
+case class Candle(val abertura: BigDecimal,
+									val fechamento: BigDecimal,
+									val minimo: BigDecimal,
+									val maximo: BigDecimal,
+									val volume: BigDecimal,
+									val data: LocalDateTime) {
 
 	require(abertura >= 0, "Preço abertura não deve ser negativo")
 	require(fechamento >= 0, "Preço fechamento não deve ser negativo")
@@ -32,7 +32,7 @@ case class Candlestick(val abertura: BigDecimal,
 }
 
 
-class CandlestickBuilder {
+class CandleBuilder {
 	var abertura: BigDecimal = 0.0
 	var fechamento: BigDecimal = 0.0
 	var minimo: BigDecimal = 0.0
@@ -72,5 +72,5 @@ class CandlestickBuilder {
 		this
 	}
 
-	def geraCandle() = Candlestick(abertura,fechamento,minimo,maximo,volume,data)
+	def geraCandle() = Candle(abertura,fechamento,minimo,maximo,volume,data)
 }
