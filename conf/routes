@@ -11,6 +11,7 @@ GET     /message                    controllers.AsyncController.message
 
 GET     /argentum                   controllers.ArgentumController.listaNegociacoes
 GET     /argentum/lista             controllers.ArgentumController.listar
+GET     /argentum/mms             	controllers.ArgentumController.mediaMovelSimples
 
 
 # Map static resources from the /public folder to the /assets URL path

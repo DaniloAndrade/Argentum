@@ -2,7 +2,9 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
-import br.com.caelum.argentum.modelo.Negociacao
+import br.com.caelum.argentum.graficos._
+import br.com.caelum.argentum.graficos.Chart._
+import br.com.caelum.argentum.modelo._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc.{Action, Controller}
@@ -34,5 +36,26 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi) extends Control
 
 	def listar = Action {
 		Ok(views.html.argentum(ClienteWebService.negociacoes))
+	}
+
+	def mediaMovelSimples = Action{
+		val negociacoes = ClienteWebService.negociacoes
+		val candles = CandleFactory.constroiCandles(negociacoes)
+		val serieTemporal = SerieTemporal(candles)
+		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao)
+		val lineSerie = gerador.plotaMediaMovelSimples
+		val categorias = gerador.categorias
+		val xAxis = XAxis(categorias)
+		val yAxis = YAxis(Title("R$",0),List(PlotLineValues(0,2,"#808080")))
+		val tooltip = Tooltip("R$")
+		val titulo = Title("Indicadores")
+		val chart = Chart(
+			series = List(lineSerie),
+			xAxis=Option(xAxis),
+			yAxis = Option(yAxis),
+			title = Option(titulo),
+			tooltip = Option(tooltip))
+		val json = Json.toJson(chart)
+		Ok(json).as("text/json")
 	}
 }
