@@ -1,6 +1,6 @@
 package br.com.caelum.argentum.tests.indicadores
 
-import br.com.caelum.argentum.indicadores.MediaMovelPonderada
+import br.com.caelum.argentum.indicadores.{IndicadorFechamento, MediaMovelPonderada}
 import br.com.caelum.argentum.modelo.SerieTemporal
 import org.specs2.mutable.Specification
 
@@ -12,7 +12,7 @@ class MediaMovelPonderadaTest extends Specification {
 	"Para uma sequencia simples de candles " >> {
 		val serie: SerieTemporal = GeradoreDeSerie(1, 2, 3, 4, 5, 6)
 
-		val mmp = new MediaMovelPonderada
+		val mmp = new MediaMovelPonderada(3,new IndicadorFechamento)
 
 		"o calcula para 2 deve ser : 1*1 + 2*2 +3*3 = 14. Divide por 6, da 14/6 " >> {
 			mmp.calcula(2, serie).toDouble must beCloseTo(14.0 / 6, 0.00001)
@@ -30,4 +30,7 @@ class MediaMovelPonderadaTest extends Specification {
 			mmp.calcula(5, serie).toDouble must beCloseTo(32.0 / 6, 0.00001)
 		}
 	}
+
+
+	//TODO Criar testes com MediaMovelPonderada com IndicadorAbertura
 }

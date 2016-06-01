@@ -9,9 +9,14 @@ import scala.math.BigDecimal.RoundingMode
 /**
 	* Created by danilo on 27/05/16.
 	*/
-class MediaMovelSimples {
+class MediaMovelSimples(intervalo:Int, indicador: Indicador) extends Indicador{
+	require(intervalo != null)
+	require(intervalo >= 0)
 
-	def calcula(posicao:Int, serie:SerieTemporal) = (((posicao - 2) to posicao )
-		.map(index =>  serie.candle(index))
-		.map(c => c.fechamento).sum / 3).setScale(2, RoundingMode.HALF_UP)
+	def calcula(posicao:Int, serie:SerieTemporal) = (((posicao - (intervalo -1)) to posicao )
+		.map(index =>  indicador.calcula(index,serie))
+		.sum / intervalo).setScale(2, RoundingMode.HALF_UP)
+
+
+	override def toString = "MMS Fechamento"
 }
