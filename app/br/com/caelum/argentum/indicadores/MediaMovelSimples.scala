@@ -9,7 +9,7 @@ import scala.math.BigDecimal.RoundingMode
 /**
 	* Created by danilo on 27/05/16.
 	*/
-class MediaMovelSimples(intervalo:Int, indicador: Indicador) extends Indicador{
+case class MediaMovelSimples(intervalo:Int, indicador: Indicador) extends Indicador{
 	require(intervalo != null)
 	require(intervalo >= 0)
 
@@ -18,5 +18,5 @@ class MediaMovelSimples(intervalo:Int, indicador: Indicador) extends Indicador{
 		.sum / intervalo).setScale(2, RoundingMode.HALF_UP)
 
 
-	override def toString = "MMS Fechamento"
+	override def toString = s"MMS ${indicador.toString}"
 }

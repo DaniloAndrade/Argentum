@@ -5,7 +5,7 @@ import br.com.caelum.argentum.modelo.SerieTemporal
 /**
 	* Created by danilo on 27/05/16.
 	*/
-class MediaMovelPonderada(intervalo:Int, indicador: Indicador) extends Indicador{
+case class MediaMovelPonderada(intervalo:Int, indicador: Indicador) extends Indicador{
 
 	require(intervalo != null)
 	require(intervalo >= 0)
@@ -25,5 +25,5 @@ class MediaMovelPonderada(intervalo:Int, indicador: Indicador) extends Indicador
 	}
 
 
-	override def toString = "MMP Fechamento"
+	override def toString = s"MMP ${indicador.toString}"
 }
