@@ -14,13 +14,23 @@
 			|
 			|<script>
 			|	$(function () {
-			| $.getJSON('http://localhost:9000/argentum/mms', function (data) {
-					// Create the chart
-					$('#chart-mms').highcharts(data);
-				});
-
-			});
-		</script>
+			| 		$.getJSON('http://localhost:9000/argentum/mms', loadChart);
+			|
+			|});
+			|
+			|var loadChart = function(data){
+			|	$('#chart-mms').highcharts(data);
+			|}
+			|$(
+			|	function(){
+			|		$('#btn-carregar-grafico').click(function(){
+			|  			var base = $('[name|="indicado-base"]:checked').val()
+			|  			var media = $('[name|="indicado-media-movel"]:checked').val()
+			|  			$.getJSON('http://localhost:9000/argentum/'+base+'/'+media, loadChart);
+			|    	})
+			|
+			|});
+			|</script>
 		""".stripMargin)){
 
 
@@ -56,10 +66,10 @@
 				<legend>Média Movel</legend>
 				<div class="radio">
 					<label class="radio-inline">
-						<input type="radio" name="indicado-media-movel" id="mms" value="mms"> Simples
+						<input type="radio" name="indicado-media-movel" id="mms" value="MMS"> Simples
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="indicado-media-movel" id="mmp" value="mmp"> Ponderada
+						<input type="radio" name="indicado-media-movel" id="mmp" value="MMP"> Ponderada
 					</label>
 				</div>
 			</fieldset>
@@ -69,14 +79,16 @@
 				<legend>Indicadores Base</legend>
 				<div class="radio">
 					<label class="radio-inline">
-						<input type="radio" name="indicado-base" id="ia" value="Abertura"> Abertura
+						<input type="radio" name="indicado-base" id="ia" value="IA"> Abertura
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="indicado-base" id="if" value="Fechamento"> Fechamento
+						<input type="radio" name="indicado-base" id="if" value="IF"> Fechamento
 					</label>
 				</div>
 			</fieldset>
+
 		</div>
+		<button id="btn-carregar-grafico" class="btn btn-primary">Carregar</button>
 	</div>
 	<div class="row">
 		<div class="col-lg-12">

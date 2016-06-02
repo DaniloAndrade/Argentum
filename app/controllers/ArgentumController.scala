@@ -4,7 +4,7 @@ import javax.inject.{Inject, Singleton}
 
 import br.com.caelum.argentum.graficos._
 import br.com.caelum.argentum.graficos.Chart._
-import br.com.caelum.argentum.indicadores.{IndicadorFechamento, MediaMovelSimples}
+import br.com.caelum.argentum.indicadores.{IndicadorFechamento, Indicadores, MediaMovelSimples}
 import br.com.caelum.argentum.modelo._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.{JsValue, Json, Writes}
@@ -65,5 +65,16 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi) extends Control
 		chart
 	}
 
-	def geraGrafico(indicadorBase:String, media:String) = ???
+	def geraGrafico(indicadorBase:String, indicadorMedia:String) = Action {
+		val base = Indicadores.criar(indicadorBase)
+		val media = Indicadores.criarIndicadorComposto(indicadorMedia)(3,base)
+		val negociacoes = ClienteWebService.negociacoes
+		val candles = CandleFactory.constroiCandles(negociacoes)
+		val serieTemporal = SerieTemporal(candles)
+		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao)
+		val lineSerie = gerador.plotaIndicador(media)
+		val chart = chartFactory(lineSerie,gerador.categorias)
+		val json = Json.toJson(chart)
+		Ok(json).as("text/json")
+	}
 }
