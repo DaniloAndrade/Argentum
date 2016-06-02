@@ -43,27 +43,12 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi) extends Control
 		val negociacoes = ClienteWebService.negociacoes
 		val candles = CandleFactory.constroiCandles(negociacoes)
 		val serieTemporal = SerieTemporal(candles)
-		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao)
-		val lineSerie = gerador.plotaIndicador(new MediaMovelSimples(3,new IndicadorFechamento))
-		val categorias = gerador.categorias
-		val chart: Chart = chartFactory(lineSerie, categorias)
+		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao, "Indicadores")
+		val chart = gerador.plotaIndicador(new MediaMovelSimples(3,new IndicadorFechamento))
 		val json = Json.toJson(chart)
 		Ok(json).as("text/json")
 	}
 
-	def chartFactory(lineSerie: LineSerie, categorias: List[String]): Chart = {
-		val xAxis = XAxis(categorias)
-		val yAxis = YAxis(Title("R$", 0), List(PlotLineValues(0, 2, "#808080")))
-		val tooltip = Tooltip("R$")
-		val titulo = Title("Indicadores")
-		val chart = Chart(
-			series = List(lineSerie),
-			xAxis = Option(xAxis),
-			yAxis = Option(yAxis),
-			title = Option(titulo),
-			tooltip = Option(tooltip))
-		chart
-	}
 
 	def geraGrafico(indicadorBase:String, indicadorMedia:String) = Action {
 		val base = Indicadores.criar(indicadorBase)
@@ -71,9 +56,8 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi) extends Control
 		val negociacoes = ClienteWebService.negociacoes
 		val candles = CandleFactory.constroiCandles(negociacoes)
 		val serieTemporal = SerieTemporal(candles)
-		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao)
-		val lineSerie = gerador.plotaIndicador(media)
-		val chart = chartFactory(lineSerie,gerador.categorias)
+		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao,"Indicadores")
+		val chart = gerador.plotaIndicador(media)
 		val json = Json.toJson(chart)
 		Ok(json).as("text/json")
 	}
