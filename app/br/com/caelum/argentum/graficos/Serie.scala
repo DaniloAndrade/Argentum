@@ -11,7 +11,7 @@ class Serie(val name:String, val tipo:TypeSerie, val data:List[BigDecimal]) {
 }
 
 object Serie {
-	implicit val implicitNegocicaoWrites = new Writes[Serie] {
+	implicit val implicitSerieWrites = new Writes[Serie] {
 		override def writes(s: Serie): JsValue = {
 			Json.obj(
 				"type" -> s.tipo,
