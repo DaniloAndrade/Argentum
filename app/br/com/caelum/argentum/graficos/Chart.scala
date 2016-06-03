@@ -1,7 +1,7 @@
 package br.com.caelum.argentum.graficos
 
 import br.com.caelum.argentum.graficos.Align.Align
-import br.com.caelum.argentum.graficos.LineSerie._
+import br.com.caelum.argentum.graficos.Serie._
 import br.com.caelum.argentum.graficos.Layout.Layout
 import br.com.caelum.argentum.graficos.VerticalAlign.VerticalAlign
 import play.api.libs.json.{JsValue, Json, Writes}
@@ -15,7 +15,7 @@ case class Chart(val title:Option[Title] = None,
 								 val yAxis:Option[YAxis] = None,
 								 val tooltip:Option[Tooltip] = None,
 								 val legend:Option[Legend] = None,
-								 val series:List[LineSerie] = List.empty) {
+								 val series:List[Serie] = List.empty) {
 
 }
 
