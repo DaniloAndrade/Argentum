@@ -1,11 +1,10 @@
-
 @import br.com.caelum.argentum.modelo.Negociacao
 @import br.com.caelum.argentum.Formatters._
-@(negociacoes:List[Negociacao])(implicit messages: Messages)
+@(negociacoes: List[Negociacao])(implicit messages: Messages)
 
 
 @template(messages("titulo.lista.negociacoes"),
-	tab="Lista",
+	tab = "Lista",
 	scripts = Html(
 		"""
 			|<script>$(document).ready(function() {$('#table-negociacoes').DataTable();});</script>
@@ -14,7 +13,10 @@
 			|
 			|<script>
 			|	$(function () {
-			| 		$.getJSON('http://localhost:9000/argentum/mms', loadChart);
+			| 		$('#tab-indicadores').click(function(){
+			| 			$.getJSON('http://localhost:9000/argentum/mms', loadChart);
+			|
+			|   	});
 			|
 			|});
 			|
@@ -31,69 +33,89 @@
 			|
 			|});
 			|</script>
-		""".stripMargin)){
+		""".stripMargin)) {
 
 
-	<h3>@messages("titulo.lista.negociacoes")</h3>
-	<hr/>
-
-	<div class="table-responsive">
-		<table id="table-negociacoes" class="table table-hover">
-			<thead>
-				<tr>
-					<th>@messages("label.negociacao.preco")</th>
-					<th>@messages("label.negociacao.quantidade")</th>
-					<th>@messages("label.negociacao.volume")</th>
-					<th>@messages("label.negociacao.data")</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for(n <- negociacoes){
-					<tr>
-						<td>@n.preco.toCurrencyFormat</td>
-						<td>@n.quantidade</td>
-						<td>@n.volume.toCurrencyFormat</td>
-						<td>@n.data.formatTo</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+	<div class="page-header">
+		<h1>@messages("titulo.lista.negociacoes")</h1>
 	</div>
 
-	<div class="row">
-		<div class="col-lg-6">
-			<fieldset>
-				<legend>Média Movel</legend>
-				<div class="radio">
-					<label class="radio-inline">
-						<input type="radio" name="indicado-media-movel" id="mms" value="MMS"> Simples
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="indicado-media-movel" id="mmp" value="MMP"> Ponderada
-					</label>
+	<div class="panel with-nav-tabs panel-default">
+		<div class="panel-heading">
+			<ul class="nav nav-tabs" rule="tablist">
+				<li class="active"><a data-toggle="tab" role="tab" href="#lista">Lista</a></li>
+				<li><a id="tab-indicadores" data-toggle="tab" role="tab" href="#indicadores">Indicadores</a></li>
+			</ul>
+		</div>
+
+		<div class="panel-body">
+			<div class="tab-content">
+				<div id="lista" class="tab-pane fade in active">
+					<div class="table-responsive">
+						<table id="table-negociacoes" class="table table-hover">
+							<thead>
+								<tr>
+									<th>@messages("label.negociacao.preco")</th>
+									<th>@messages("label.negociacao.quantidade")</th>
+									<th>@messages("label.negociacao.volume")</th>
+									<th>@messages("label.negociacao.data")</th>
+								</tr>
+							</thead>
+							<tbody>
+							@for(n <- negociacoes) {
+								<tr>
+									<td>@n.preco.toCurrencyFormat</td>
+									<td>@n.quantidade</td>
+									<td>@n.volume.toCurrencyFormat</td>
+									<td>@n.data.formatTo</td>
+								</tr>
+							}
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</fieldset>
-		</div>
-		<div class="col-lg-6">
-			<fieldset>
-				<legend>Indicadores Base</legend>
-				<div class="radio">
-					<label class="radio-inline">
-						<input type="radio" name="indicado-base" id="ia" value="IA"> Abertura
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="indicado-base" id="if" value="IF"> Fechamento
-					</label>
-				</div>
-			</fieldset>
+				<div id="indicadores" class="tab-pane fade">
 
+
+					<div class="col-lg-4">
+
+						<fieldset>
+							<legend>Tipos</legend>
+
+							<div class="radio">
+								<label class="radio-inline">
+									<input type="radio" name="indicado-base" id="ia" value="IA"> Abertura
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="indicado-base" id="if" value="IF"> Fechamento
+								</label>
+							</div>
+
+							<div class="radio">
+								<label class="radio-inline">
+									<input type="radio" name="indicado-media-movel" id="mms" value="MMS">
+									Simples
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="indicado-media-movel" id="mmp" value="MMP">
+									Ponderada
+								</label>
+							</div>
+						</fieldset>
+
+						<button id="btn-carregar-grafico" class="btn btn-primary">Carregar</button>
+					</div>
+
+
+					<div class="col-lg-8">
+						<div id="chart-mms" style="min-width: 310px;
+							height: 400px;
+							margin: 0 auto"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<button id="btn-carregar-grafico" class="btn btn-primary">Carregar</button>
 	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<div id="chart-mms" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-		</div>
-	</div>
+
 
 }
