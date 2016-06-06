@@ -1,11 +1,13 @@
 package services
 
+import java.io.Reader
+
 import br.com.caelum.argentum.modelo.Negociacao
 import br.com.caelum.argentum.reader.LeitorXML
 
 import scala.io.Source
 import scala.util.{Failure, Success, Try}
-import scala.xml.XML
+import scala.xml.{Node, XML}
 
 /**
 	* Created by danilo on 23/05/16.
