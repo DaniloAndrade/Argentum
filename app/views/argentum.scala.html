@@ -78,30 +78,31 @@
 
 
 					<div class="col-lg-4">
+						<form >
+							<fieldset>
+								<legend>Tipos</legend>
 
-						<fieldset>
-							<legend>Tipos</legend>
+								<div class="radio">
+									<label>
+										<input type="radio" name="indicado-base" id="ia" value="IA"> Abertura
+									</label>
+									<label >
+										<input type="radio" name="indicado-base" id="if" value="IF"> Fechamento
+									</label>
+								</div>
+								<div class="radio">
+									<label>
+										<input type="radio" name="indicado-media-movel" id="mms" value="MMS">
+										Simples
+									</label>
+									<label>
+										<input type="radio" name="indicado-media-movel" id="mmp" value="MMP">
+										Ponderada
+									</label>
+								</div>
+							</fieldset>
+						</form>
 
-							<div class="radio">
-								<label class="radio-inline">
-									<input type="radio" name="indicado-base" id="ia" value="IA"> Abertura
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="indicado-base" id="if" value="IF"> Fechamento
-								</label>
-							</div>
-
-							<div class="radio">
-								<label class="radio-inline">
-									<input type="radio" name="indicado-media-movel" id="mms" value="MMS">
-									Simples
-								</label>
-								<label class="radio-inline">
-									<input type="radio" name="indicado-media-movel" id="mmp" value="MMP">
-									Ponderada
-								</label>
-							</div>
-						</fieldset>
 
 						<button id="btn-carregar-grafico" class="btn btn-primary">Carregar</button>
 					</div>
