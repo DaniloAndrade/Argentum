@@ -8,23 +8,20 @@ import br.com.caelum.argentum.PieSerie
 /**
 	* Created by danilo on 28/05/16.
 	*/
-class GeradorModeloGrafico(val serie:SerieTemporal, val inicio:Int, val fim:Int, titulo:String) {
+class GeradorModeloGrafico(val temporalSerie:SerieTemporal, val inicio:Int, val fim:Int, titulo:String) {
+
+	val intervalo = inicio to fim
 
 
-	def plotaIndicador(indicador: Indicador) = {
-		val valores = (inicio to fim).map(indice => indicador.calcula(indice,serie)).toList
-		chartFactory(titulo,LineSerie(indicador.toString, valores),categorias)
-	}
 
-
-	def chartFactory(_titulo:String, serie: Serie, categorias: List[String]): Chart = {
+	def chartBuilder(_titulo: String, list: List[Serie]): Chart = {
 		val xAxis = XAxis(categorias)
 		//val yAxis = YAxis(Title("R$", 0), List(PlotLineValues(0, 2, "#808080")))
 		val yAxis = YAxis(Title("R$", 0),List())
 		val tooltip = Tooltip("R$")
 		val titulo = Title(_titulo)
 		val chart = Chart(
-			series = List(serie),
+			series = list,
 			xAxis = Option(xAxis),
 			yAxis = Option(yAxis),
 			title = Option(titulo),
@@ -32,7 +29,26 @@ class GeradorModeloGrafico(val serie:SerieTemporal, val inicio:Int, val fim:Int,
 		chart
 	}
 
-	def categorias = (inicio to fim) map(inicio => serie.candle(inicio).data) map(_.formatTo("dd/MM/yyyy")) toList
+	def plotaIndicador(indicador: Indicador, calc: Indicador => List[BigDecimal])(f: (String ,List[BigDecimal]) => List[Serie] ):Chart = {
+		chartBuilder(titulo, f(indicador.toString,calc(indicador)))
+	}
+
+
+	def calcular(indicador: Indicador) = intervalo.map(indice => indicador.calcula(indice,temporalSerie)).toList
+
+	def plotaIndicadorInLineChart(indicador: Indicador) = plotaIndicador(indicador,calcular) { (legenda:String, valores:List[BigDecimal]) =>
+		List(LineSerie(legenda,valores))
+	}
+
+	def plotaIndicadorInColumnChart(indicador: Indicador) = plotaIndicador(indicador,calcular) { (legenda:String, valores:List[BigDecimal]) =>
+		List(ColumnSerie(legenda,valores))
+	}
+
+	def plotaIndicadorInCombinationLineColumnChart(indicador: Indicador) = plotaIndicador(indicador,calcular) { (legenda:String, valores:List[BigDecimal]) =>
+		List(LineSerie(legenda,valores),ColumnSerie(legenda,valores))
+	}
+
+	def categorias = intervalo map(inicio => temporalSerie.candle(inicio).data) map(_.formatTo("dd/MM/yyyy")) toList
 
 }
 

@@ -62,6 +62,7 @@ class ChartSerializeTest extends Specification{
 			|    "borderWidth" : 0
 			|  },
 			|  "series" : [ {
+			|    "type" : "line",
 			|    "name" : "MMS",
 			|    "data" : [ 10, 15.5, 5.9 ]
 			|  } ]
@@ -76,6 +77,7 @@ class ChartSerializeTest extends Specification{
 			|  "tooltip" : { },
 			|  "legend" : { },
 			|  "series" : [ {
+			|    "type" : "line",
 			|    "name" : "MMS",
 			|    "data" : [ 10, 15.5, 5.9 ]
 			|  } ]

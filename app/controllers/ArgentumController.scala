@@ -1,8 +1,7 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.duration._
-import br.com.caelum.argentum.graficos._
+
 import br.com.caelum.argentum.graficos.Chart._
 import br.com.caelum.argentum.indicadores.{IndicadorFechamento, Indicadores, MediaMovelSimples}
 import br.com.caelum.argentum.modelo._
@@ -12,7 +11,7 @@ import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc.{Action, Controller}
 import services.ClienteWebService
 
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 
 /**
 	* Created by danilo on 25/05/16.
@@ -52,7 +51,7 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi , cache:CacheApi
 		val candles = CandleFactory.constroiCandles(negociacoes)
 		val serieTemporal = SerieTemporal(candles)
 		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao, "Indicadores")
-		val chart = gerador.plotaIndicador(new MediaMovelSimples(3,new IndicadorFechamento))
+		val chart = gerador.plotaIndicadorInCombinationLineColumnChart(new MediaMovelSimples(3,new IndicadorFechamento))
 		val json = Json.toJson(chart)
 		Ok(json).as("text/json")
 	}
@@ -65,7 +64,7 @@ class ArgentumController @Inject()(val messagesApi: MessagesApi , cache:CacheApi
 		val candles = CandleFactory.constroiCandles(negociacoes)
 		val serieTemporal = SerieTemporal(candles)
 		val gerador = new GeradorModeloGrafico(serieTemporal,2,serieTemporal.ultimaPosicao,"Indicadores")
-		val chart = gerador.plotaIndicador(media)
+		val chart = gerador.plotaIndicadorInCombinationLineColumnChart(media)
 		val json = Json.toJson(chart)
 		Ok(json).as("text/json")
 	}
